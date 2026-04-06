@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: app_db
+    environment:
+      POSTGRES_USER: user123
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: db123
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user123 -d db123"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app_api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PORT: 13000
+      DATABASE_URL: postgresql://user123:password123@db:5432/db123
+      JWT_SECRET: change_me_in_prod
+      CORS_ORIGIN: "*"
+    ports:
+      - "13000:13000"
+    restart: unless-stopped
+
+volumes:
+  pgdata:

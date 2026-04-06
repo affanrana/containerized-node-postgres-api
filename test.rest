@@ -1,0 +1,56 @@
+### Health check
+GET http://localhost:13000/health
+
+### Register (creates a user)
+POST http://localhost:13000/auth/register
+Content-Type: application/json
+
+{
+  "email": "demo@example.com",
+  "password": "Password123!"
+}
+
+### Login (returns JWT)
+POST http://localhost:13000/auth/login
+Content-Type: application/json
+
+{
+  "email": "demo@example.com",
+  "password": "Password123!"
+}
+
+### (Optional) Paste your token here after login:
+@token = REPLACE_WITH_JWT_FROM_LOGIN
+
+### List schools (public)
+GET http://localhost:13000/schools
+
+### Create school (protected)
+POST http://localhost:13000/schools
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Toronto Tech Institute",
+  "city": "Toronto"
+}
+
+### Get school by id (public)
+# Replace 1 with a real id from the list/create response
+GET http://localhost:13000/schools/1
+
+### Update school (protected)
+# Replace 1 with a real id
+PUT http://localhost:13000/schools/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Toronto Tech Institute (Updated)",
+  "city": "Toronto"
+}
+
+### Delete school (protected)
+# Replace 1 with a real id
+DELETE http://localhost:13000/schools/1
+Authorization: Bearer {{token}}
