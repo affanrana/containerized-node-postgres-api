@@ -34,7 +34,7 @@ Client → API (Express) → PostgreSQL
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/containerized-node-postgres-api.git
+git clone https://github.com/affanrana/containerized-node-postgres-api.git
 cd containerized-node-postgres-api
 ```
 
